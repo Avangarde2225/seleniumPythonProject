@@ -1,6 +1,8 @@
 from selenium import webdriver
 import time
 import unittest
+from PageObject.Pages.loginPage import LoginPAge
+from PageObject.Pages.homePage import HomePage
 
 class logintest(unittest.TestCase):
 
@@ -12,12 +14,24 @@ class logintest(unittest.TestCase):
 
 
     def test_login_valid(self):
-        self.driver.get("https://opensource-demo.orangehrmlive.com/")
-        self.driver.find_element_by_id("txtUsername").send_keys("Admin")
-        self.driver.find_element_by_id("txtPassword").send_keys("admin123")
-        self.driver.find_element_by_id("btnLogin").click()
-        self.driver.find_element_by_id("welcome").click()
-        self.driver.find_element_by_link_text("Logout").click()
+        driver = self.driver
+
+        driver.get("https://opensource-demo.orangehrmlive.com/")
+
+        login = LoginPAge(driver)
+        login.enter_username("Admin")
+        login.enter_password("admin123")
+        login.click_login()
+
+        homepage = HomePage(driver)
+        homepage.click_welcome()
+        homepage.click_logout()
+
+        # self.driver.find_element_by_id("txtUsername").send_keys("Admin")
+        # self.driver.find_element_by_id("txtPassword").send_keys("admin123")
+        # self.driver.find_element_by_id("btnLogin").click()
+        # self.driver.find_element_by_id("welcome").click()
+        # self.driver.find_element_by_link_text("Logout").click()
         time.sleep(2)
 
     @classmethod
